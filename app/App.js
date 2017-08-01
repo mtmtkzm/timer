@@ -16,31 +16,51 @@ export default class CountDownTimer extends Component {
     super(props);
 
     this.state = {
-      timer: [] // [hours, min]
+      timer: [0,0] // [hours, min]
     };
 
     this._showTimerSetter();
   }
 
-  // 23h 59m までのデータを作る
+  // 59m 59s までのデータを作る
   _createTimerData = () => {
-    let hours = [], min = [];
-
-    for (let i=0; i<24; i++) {
-      hours.push(i);
-    }
-
-    for (let i=0; i<60; i++) {
-      min.push(i);
-    }
-
-    return [hours, min];
+    let minutes = [], seconds = [];
+    for (let i=0; i<60; i++) { minutes.push(i) }
+    for (let i=0; i<60; i++) { seconds.push(i) }
+    return [minutes, seconds];
   };
 
-  _startTimer = (value) => {
+  _setTimer = (timer) => {
     this.setState({
-      timer: value
+      timer: timer
     })
+  };
+
+  _startTimer = () => {
+    setInterval( () => {
+      let currentSeconds = this._convertArrayToSeconds(this.state.timer);
+      currentSeconds = currentSeconds - 1;
+
+      this.setState({
+        timer: this._convertSecondsToArray(currentSeconds)
+      })
+    }, 1000);
+  };
+
+  _convertArrayToSeconds = (array) => {
+    // FROM [min, sec](array)
+    // TO   sec(Number)
+    return Number(array[0] * 60) + Number(array[1]);
+  };
+
+  _convertSecondsToArray = seconds => {
+    // FROM sec(Number)
+    // TO   [min, sec](array)
+
+    let min = Math.floor(seconds / 60);
+    let sec = seconds % 60;
+
+    return [min, sec];
   };
 
   _showTimerSetter = () => {
@@ -52,15 +72,13 @@ export default class CountDownTimer extends Component {
       pickerConfirmBtnText: 'Start Timer',
       pickerCancelBtnText: 'Cancel',
       pickerTitleText: '',
-      onPickerConfirm: (pickedValue, pickedIndex) => {
-        this._startTimer(pickedValue);
+      onPickerConfirm: pickedValue => {
+        this._setTimer(pickedValue);
+        this._startTimer();
       },
-      // onPickerCancel: (pickedValue, pickedIndex) => {
-      //   console.log('date', pickedValue, pickedIndex);
-      // },
-      // onPickerSelect: (pickedValue, pickedIndex) => {
-      //   console.log('date', pickedValue, pickedIndex);
-      // }
+      onPickerSelect: pickedValue => {
+        this._setTimer(pickedValue);
+      }
     });
 
     // Pickerを表示させる
@@ -70,7 +88,7 @@ export default class CountDownTimer extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>{this.state.timer[0]}hours {this.state.timer[1]}min</Text>
+        <Text>{this.state.timer[0]}minutes {this.state.timer[1]}seconds</Text>
       </View>
     );
   }
