@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   AppRegistry,
   StyleSheet,
@@ -12,11 +12,11 @@ import {
 import Picker from 'react-native-picker';
 
 export default class CountDownTimer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
-      timer: [0,0] // [hours, min]
+      timer: [0, 0] // [hours, min]
     };
 
     this._showTimerSetter();
@@ -25,8 +25,12 @@ export default class CountDownTimer extends Component {
   // 59m 59s までのデータを作る
   _createTimerData = () => {
     let minutes = [], seconds = [];
-    for (let i=0; i<60; i++) { minutes.push(i) }
-    for (let i=0; i<60; i++) { seconds.push(i) }
+    for (let i = 0; i < 60; i++) {
+      minutes.push(i)
+    }
+    for (let i = 0; i < 60; i++) {
+      seconds.push(i)
+    }
     return [minutes, seconds];
   };
 
@@ -37,7 +41,7 @@ export default class CountDownTimer extends Component {
   };
 
   _startTimer = () => {
-    setInterval( () => {
+    setInterval(() => {
       let currentSeconds = this._convertArrayToSeconds(this.state.timer);
       currentSeconds = currentSeconds - 1;
 
@@ -68,7 +72,7 @@ export default class CountDownTimer extends Component {
       pickerData: this._createTimerData(),
       pickerToolBarFontSize: 16,
       pickerFontSize: 16,
-      pickerFontColor: [0, 0 ,0, 1],
+      pickerFontColor: [0, 0, 0, 1],
       pickerConfirmBtnText: 'Start Timer',
       pickerCancelBtnText: 'Cancel',
       pickerTitleText: '',
@@ -87,7 +91,7 @@ export default class CountDownTimer extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.styles}>
         <Text>{this.state.timer[0]}minutes {this.state.timer[1]}seconds</Text>
       </View>
     );
@@ -101,6 +105,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  styles: {
+    flex: 1,
+    backgroundColor: '#36445D',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
