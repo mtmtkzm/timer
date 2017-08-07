@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
+
 import {
   AppRegistry,
   StyleSheet,
-  TextInput,
   View,
   Text,
-  TouchableOpacity
 } from 'react-native';
 
 
@@ -35,9 +34,7 @@ export default class CountDownTimer extends Component {
   };
 
   _setTimer = (timer) => {
-    this.setState({
-      timer: timer
-    })
+    this.setState({ timer: timer })
   };
 
   _startTimer = () => {
@@ -71,8 +68,12 @@ export default class CountDownTimer extends Component {
     Picker.init({
       pickerData: this._createTimerData(),
       pickerToolBarFontSize: 16,
-      pickerFontSize: 16,
-      pickerFontColor: [0, 0, 0, 1],
+      pickerFontSize: 22,
+      pickerToolBarBg: [255, 255, 255, 0.1],
+      pickerBg: [55, 68, 92, 1],
+      pickerFontColor: [255, 255, 255, 1],
+      pickerCancelBtnColor: [255, 255, 255, 1],
+      pickerConfirmBtnColor: [255, 255, 255, 1],
       pickerConfirmBtnText: 'Start Timer',
       pickerCancelBtnText: 'Cancel',
       pickerTitleText: '',
@@ -84,15 +85,15 @@ export default class CountDownTimer extends Component {
         this._setTimer(pickedValue);
       }
     });
-
-    // Pickerを表示させる
     Picker.show();
   };
 
   render() {
     return (
-      <View style={styles.styles}>
-        <Text>{this.state.timer[0]}minutes {this.state.timer[1]}seconds</Text>
+      <View style={styles.container}>
+        <Text style={[styles.timer, styles.minutes]}>{this.state.timer[0]}</Text>
+        <Text style={styles.colon}>:</Text>
+        <Text style={[styles.timer, styles.seconds]}>{this.state.timer[1]}</Text>
       </View>
     );
   }
@@ -102,16 +103,34 @@ export default class CountDownTimer extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  styles: {
-    flex: 1,
     backgroundColor: '#36445D',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
   },
+  timer: {
+    flex:3,
+    color: '#FFFFFF',
+    fontSize: 90,
+    textAlign: 'right',
+    fontFamily: 'Futura',
+    paddingBottom: 140,
+    backgroundColor: 'transparent',
+  },
+  minutes: {
+  },
+  seconds: {
+    position: 'relative',
+    right: 35,
+  },
+  colon: {
+    flex:1,
+    color: '#FFFFFF',
+    fontSize: 100,
+    paddingLeft: 20,
+    paddingBottom: 160,
+    textAlign: 'center',
+  }
 });
 
 AppRegistry.registerComponent('CountDownTimer', () => CountDownTimer);
