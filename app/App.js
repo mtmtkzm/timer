@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import Picker from 'react-native-picker';
 import {
   AppRegistry,
   StyleSheet,
@@ -7,15 +7,13 @@ import {
   Text,
 } from 'react-native';
 
-
-import Picker from 'react-native-picker';
-
 export default class CountDownTimer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      timer: [0, 0] // [hours, min]
+      timer: [0, 0], // [hours, min]
+      containerStyles: styles.containerDefault
     };
 
     this._showTimerSetter();
@@ -40,12 +38,22 @@ export default class CountDownTimer extends Component {
   _startTimer = () => {
     setInterval(() => {
       let currentSeconds = this._convertArrayToSeconds(this.state.timer);
+      if (currentSeconds <= 0) {
+        this._timeup();
+        return;
+      }
       currentSeconds = currentSeconds - 1;
 
       this.setState({
         timer: this._convertSecondsToArray(currentSeconds)
       })
     }, 1000);
+  };
+
+  _timeup = () => {
+    this.setState({
+      containerStyles: styles.containerTimeup
+    })
   };
 
   _convertArrayToSeconds = (array) => {
@@ -90,7 +98,7 @@ export default class CountDownTimer extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={ this.state.containerStyles }>
         <Text style={[styles.timer, styles.minutes]}>{this.state.timer[0]}</Text>
         <Text style={styles.colon}>:</Text>
         <Text style={[styles.timer, styles.seconds]}>{this.state.timer[1]}</Text>
@@ -101,9 +109,16 @@ export default class CountDownTimer extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  containerDefault: {
     flex: 1,
     backgroundColor: '#36445D',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  containerTimeup: {
+    flex: 1,
+    backgroundColor: '#AB3335',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
