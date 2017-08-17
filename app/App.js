@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import Picker from 'react-native-picker';
+// import Picker from 'react-native-picker';
 import {
   AppRegistry,
   StyleSheet,
   View,
   Text,
+  Picker,
+  Dimensions
 } from 'react-native';
 
 export default class CountDownTimer extends Component {
@@ -12,11 +14,11 @@ export default class CountDownTimer extends Component {
     super(props);
 
     this.state = {
-      timer: [0, 0], // [hours, min]
+      timer: ['03', '00'], // [hours, min]
       containerStyles: styles.containerDefault
     };
 
-    this._showTimerSetter();
+    // this._showTimerSetter();
   }
 
   // 59m 59s までのデータを作る
@@ -56,52 +58,69 @@ export default class CountDownTimer extends Component {
     })
   };
 
-  _convertArrayToSeconds = (array) => {
-    // FROM [min, sec](array)
-    // TO   sec(Number)
+  _convertArrayToSeconds = array => {
+    // FROM [min, sec](array) TO sec(Number)
     return Number(array[0] * 60) + Number(array[1]);
   };
 
   _convertSecondsToArray = seconds => {
-    // FROM sec(Number)
-    // TO   [min, sec](array)
-
-    let min = Math.floor(seconds / 60);
-    let sec = seconds % 60;
-
-    return [min, sec];
-  };
-
-  _showTimerSetter = () => {
-    Picker.init({
-      pickerData: this._createTimerData(),
-      pickerToolBarFontSize: 16,
-      pickerFontSize: 22,
-      pickerToolBarBg: [255, 255, 255, 0.1],
-      pickerBg: [55, 68, 92, 1],
-      pickerFontColor: [255, 255, 255, 1],
-      pickerCancelBtnColor: [255, 255, 255, 1],
-      pickerConfirmBtnColor: [255, 255, 255, 1],
-      pickerConfirmBtnText: 'Start Timer',
-      pickerCancelBtnText: 'Cancel',
-      pickerTitleText: '',
-      onPickerConfirm: pickedValue => {
-        this._setTimer(pickedValue);
-        this._startTimer();
-      },
-      onPickerSelect: pickedValue => {
-        this._setTimer(pickedValue);
-      }
-    });
-    Picker.show();
+    // FROM sec(Number) TO [min, sec](array)
+    return [Math.floor(seconds / 60), seconds % 60];
   };
 
   render() {
     return (
-      <View style={ this.state.containerStyles }>
-        <Text style={[styles.timer, styles.minutes]}>{this.state.timer[0]}</Text>
-        <Text style={styles.colon}>:</Text>
-        <Text style={[styles.timer, styles.seconds]}>{this.state.timer[1]}</Text>
+      <View style={[ styles.container ]}>
+        <View style={[ styles.picker ]}>
+          <View style={[ styles.pickerMinutes ]}>
+            <Picker itemStyle={[ styles.pickerItem ]} selectedValue="3">
+              <Picker.Item label="0" value="0" />
+              <Picker.Item label="1" value="1" />
+              <Picker.Item label="2" value="2" />
+              <Picker.Item label="3" value="3" />
+              <Picker.Item label="4" value="4" />
+              <Picker.Item label="5" value="5" />
+              <Picker.Item label="6" value="6" />
+              <Picker.Item label="7" value="7" />
+              <Picker.Item label="8" value="8" />
+              <Picker.Item label="9" value="9" />
+              <Picker.Item label="10" value="10" />
+              <Picker.Item label="11" value="11" />
+              <Picker.Item label="12" value="12" />
+              <Picker.Item label="13" value="13" />
+              <Picker.Item label="14" value="14" />
+              <Picker.Item label="15" value="15" />
+            </Picker>
+            <Text style={[ styles.pickerMinutesUnit ]}>分</Text>
+          </View>
+
+          <View style={[ styles.pickerSeconds ]}>
+            <Picker itemStyle={[ styles.pickerItem ]} selectedValue="0">
+              <Picker.Item label="0" value="0" />
+              <Picker.Item label="1" value="1" />
+              <Picker.Item label="2" value="2" />
+              <Picker.Item label="3" value="3" />
+              <Picker.Item label="4" value="4" />
+              <Picker.Item label="5" value="5" />
+              <Picker.Item label="6" value="6" />
+              <Picker.Item label="7" value="7" />
+              <Picker.Item label="8" value="8" />
+              <Picker.Item label="9" value="9" />
+              <Picker.Item label="10" value="10" />
+              <Picker.Item label="11" value="11" />
+              <Picker.Item label="12" value="12" />
+              <Picker.Item label="13" value="13" />
+              <Picker.Item label="14" value="14" />
+              <Picker.Item label="15" value="15" />
+            </Picker>
+            <Text style={[ styles.pickerSecondsUnit ]}>秒</Text>
+          </View>
+        </View>
+        <View style={[ styles.timer ]}>
+          <Text style={[ styles.timerMinutes]}>{this.state.timer[0]}</Text>
+          <Text style={[ styles.timerColon ]}>:</Text>
+          <Text style={[ styles.timerSeconds]}>{this.state.timer[1]}</Text>
+        </View>
       </View>
     );
   }
@@ -109,43 +128,76 @@ export default class CountDownTimer extends Component {
 }
 
 const styles = StyleSheet.create({
-  containerDefault: {
+  container: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: '#36445D',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
   },
   containerTimeup: {
-    flex: 1,
     backgroundColor: '#AB3335',
+  },
+
+  picker: {
+    flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  pickerMinutes: {
+    flex: 1,
+    paddingLeft: 50,
+  },
+  pickerSeconds: {
+    flex: 1,
+    paddingRight: 80,
+  },
+  pickerItem: {
+    color: '#ffffff',
+  },
+  pickerMinutesUnit: {
+    position: 'absolute',
+    bottom: 100,
+    right: 25,
+    color: '#ffffff'
+  },
+  pickerSecondsUnit: {
+    position: 'absolute',
+    bottom: 100,
+    right: 105,
+    color: '#ffffff'
+  },
+
+  timer: {
+    flex: 1,
     flexDirection: 'row',
   },
-  timer: {
-    flex:3,
+  timerMinutes: {
+    flex: 1,
     color: '#FFFFFF',
     fontSize: 90,
-    textAlign: 'right',
-    fontFamily: 'Futura',
-    paddingBottom: 140,
-    backgroundColor: 'transparent',
-  },
-  minutes: {
-  },
-  seconds: {
-    position: 'relative',
-    right: 35,
-  },
-  colon: {
-    flex:1,
-    color: '#FFFFFF',
-    fontSize: 100,
-    paddingLeft: 20,
-    paddingBottom: 160,
     textAlign: 'center',
-  }
+    paddingLeft: 20,
+  },
+  timerColon: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: -10,
+    display: 'flex',
+    justifyContent: 'center',
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontSize: 90,
+    backgroundColor: 'transparent',
+    zIndex: 1,
+  },
+  timerSeconds: {
+    flex: 1,
+    color: '#FFFFFF',
+    fontSize: 90,
+    textAlign: 'center',
+    paddingRight: 20,
+  },
+
 });
 
 AppRegistry.registerComponent('CountDownTimer', () => CountDownTimer);
