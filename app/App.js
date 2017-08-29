@@ -12,61 +12,11 @@ export default class CountDownTimer extends Component {
     super(props);
 
     this.state = {
-      timer: ['03', '00'], // [hours, min]
       minutes: 3,
       seconds: 0,
       containerStyles: styles.containerDefault
     };
-
-    // this._showTimerSetter();
   }
-
-  // 59m 59s までのデータを作る
-  _createTimerData = () => {
-    let minutes = [], seconds = [];
-    for (let i = 0; i < 60; i++) {
-      minutes.push(i)
-    }
-    for (let i = 0; i < 60; i++) {
-      seconds.push(i)
-    }
-    return [minutes, seconds];
-  };
-
-  _setTimer = (timer) => {
-    this.setState({ timer: timer })
-  };
-
-  _startTimer = () => {
-    setInterval(() => {
-      let currentSeconds = this._convertArrayToSeconds(this.state.timer);
-      if (currentSeconds <= 0) {
-        this._timeup();
-        return;
-      }
-      currentSeconds = currentSeconds - 1;
-
-      this.setState({
-        timer: this._convertSecondsToArray(currentSeconds)
-      })
-    }, 1000);
-  };
-
-  _timeup = () => {
-    this.setState({
-      containerStyles: styles.containerTimeup
-    })
-  };
-
-  _convertArrayToSeconds = array => {
-    // FROM [min, sec](array) TO sec(Number)
-    return Number(array[0] * 60) + Number(array[1]);
-  };
-
-  _convertSecondsToArray = seconds => {
-    // FROM sec(Number) TO [min, sec](array)
-    return [Math.floor(seconds / 60), seconds % 60];
-  };
 
   render() {
     const n = Array.from(new Array(60)).map((v,i) => i);
