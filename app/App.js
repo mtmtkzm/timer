@@ -85,7 +85,7 @@ export default class CountDownTimer extends Component {
           </View>
         </View>
 
-        <View style={ styles.timerWrapper }>
+        <View style={ styles.btnWrapper }>
           <TouchableHighlight style={[styles.cancelButton]} onPress={this._onPressCancelButton}>
             <Text style={[styles.cancelButtonText]} >Cancel</Text>
           </TouchableHighlight>
