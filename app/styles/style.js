@@ -1,12 +1,20 @@
-import {
-  StyleSheet,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
+
 export default styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#36445D',
   },
+  timerWrapper: {
+    flex: 1,
+  },
+  btnWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+
   containerTimeup: {
     backgroundColor: '#AB3335',
   },
@@ -14,7 +22,8 @@ export default styles = StyleSheet.create({
   picker: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    marginTop: 50,
   },
   pickerMinutes: {
     flex: 1,
@@ -71,5 +80,41 @@ export default styles = StyleSheet.create({
     textAlign: 'center',
     paddingRight: 20,
   },
+
+  cancelButton: {
+    backgroundColor: 'gray',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cancelButtonText: {
+    backgroundColor: 'transparent',
+    color: '#FFFFFF',
+    letterSpacing: 1,
+    fontSize: 20,
+  },
+  startButton: {
+    backgroundColor: '#BDA31F',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  startButtonText: {
+    backgroundColor: 'transparent',
+    color: '#FFFFFF',
+    letterSpacing: 1,
+    fontSize: 20,
+  },
+
+  displayNone: {
+    height: 0,
+    opacity: 0
+  }
 
 });
